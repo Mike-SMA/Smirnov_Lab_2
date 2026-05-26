@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    restart: unless-stopped
+    volumes:
+      - ./influxdb/scripts:/docker-entrypoint-initdb.d
+      - influx_data:/var/lib/influxdb
+    networks:
+      - server-net
+
+  telegraf:
+    image: telegraf
+    container_name: telegraf
+    restart: unless-stopped
+    volumes:
+      - ./telegraf:/etc/telegraf:ro
+    depends_on:
+      - influxdb
+    networks:
+      - server-net
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - influxdb
+    networks:
+      - server-net
+
+volumes:
+  influx_data: {}
+  grafana_data: {}
+
+networks:
+  server-net: {}

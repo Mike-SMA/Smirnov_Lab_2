@@ -1,0 +1,64 @@
+version: "3"
+
+services:
+  temperature_1:
+    image: mikesma1/data-simulator
+    container_name: temp_sensor_1
+    environment:
+      - SIM_HOST=192.168.10.1
+      - SIM_NAME=temp_room1
+      - SIM_PERIOD=5
+      - SIM_TYPE=temperature
+      - SIM_TOPIC_FORMAT=plain
+    restart: unless-stopped
+
+  temperature_2:
+    image: mikesma1/data-simulator
+    container_name: temp_sensor_2
+    environment:
+      - SIM_HOST=192.168.10.1
+      - SIM_NAME=temp_room2
+      - SIM_PERIOD=3
+      - SIM_TYPE=temperature
+      - SIM_TOPIC_FORMAT=json
+    restart: unless-stopped
+
+  pressure_1:
+    image: mikesma1/data-simulator
+    container_name: pressure_sensor_1
+    environment:
+      - SIM_HOST=192.168.10.1
+      - SIM_NAME=pressure_main
+      - SIM_PERIOD=10
+      - SIM_TYPE=pressure
+    restart: unless-stopped
+
+  pressure_2:
+    image: mikesma1/data-simulator
+    container_name: pressure_sensor_2
+    environment:
+      - SIM_HOST=192.168.10.1
+      - SIM_NAME=pressure_backup
+      - SIM_PERIOD=7
+      - SIM_TYPE=pressure
+    restart: unless-stopped
+
+  current_1:
+    image: mikesma1/data-simulator
+    container_name: current_sensor_1
+    environment:
+      - SIM_HOST=192.168.10.1
+      - SIM_NAME=current_line_A
+      - SIM_PERIOD=2
+      - SIM_TYPE=current
+    restart: unless-stopped
+
+  humidity_1:
+    image: mikesma1/data-simulator
+    container_name: humidity_sensor_1
+    environment:
+      - SIM_HOST=192.168.10.1
+      - SIM_NAME=humidity_main
+      - SIM_PERIOD=8
+      - SIM_TYPE=humidity
+    restart: unless-stopped

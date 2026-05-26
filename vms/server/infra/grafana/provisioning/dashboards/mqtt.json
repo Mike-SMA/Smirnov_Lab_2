@@ -1,0 +1,24 @@
+{
+  "title": "IoT Sensors Dashboard",
+  "uid": "mqtt-sensors-001",
+  "panels": [
+    {
+      "datasource": "InfluxDB_v1",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+      "id": 1,
+      "targets": [
+        {
+          "query": "SELECT last(\"value\") FROM \"mqtt_consumer\" WHERE $timeFilter GROUP BY \"topic\"",
+          "rawQuery": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Текущие значения всех датчиков",
+      "type": "stat"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "time": {"from": "now-30m", "to": "now"},
+  "version": 1
+}
