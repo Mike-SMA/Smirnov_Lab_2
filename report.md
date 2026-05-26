@@ -2,8 +2,6 @@
 
 ## Архитектура системы
 
-Система построена на базе трёх виртуальных машин из Лабораторной работы 1 и реализует IoT-мониторинг с помощью Docker-контейнеров.
-
 ```
 [Linux A / smirnovclient 192.168.10.10]
   └── 6 симуляторов датчиков (Docker)
@@ -21,8 +19,6 @@
 
 ## 1. Linux B (smirnovgateway) — MQTT брокер
 
-### Установка Docker и запуск Mosquitto
-
 ```bash
 sudo apt install -y docker.io
 sudo ufw allow 1883/tcp
@@ -30,19 +26,20 @@ sudo docker run -d --name broker -p 1883:1883 eclipse-mosquitto
 ```
 
 ### mosquitto.conf
-
 ```
 listener 1883
 allow_anonymous true
 ```
 
+### Результат — broker запущен
+
+![Gateway docker ps](assets/images/gateway_docker_ps.png)
+
 ---
 
 ## 2. Linux A (smirnovclient) — Симуляторы датчиков
 
-### Классы датчиков
-
-Реализован базовый класс `Sensor` и 4 наследника с формулами на основе даты рождения (15.10.2002):
+### Классы датчиков с формулами (дата рождения 15.10.2002)
 
 | Тип | Класс | Диапазон | Формула |
 |-----|-------|----------|---------|
@@ -75,6 +72,10 @@ sudo docker push mikesma1/data-simulator
 ```bash
 sudo docker-compose up -d
 ```
+
+### Результат — 6 контейнеров запущены
+
+![Client docker ps](assets/images/client_docker_ps.png)
 
 ---
 
